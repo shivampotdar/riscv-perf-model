@@ -294,6 +294,7 @@ namespace olympia
     void LSU::handleCacheReadyReq_(const MemoryAccessInfoPtr &memory_access_info_ptr)
     {
         auto inst_ptr = memory_access_info_ptr->getInstPtr();
+        std::cout << "shivam - handleCacheReadyReq_ for " << inst_ptr->getUniqueID() << std::endl;
         if (cache_pending_inst_flushed_) {
             cache_pending_inst_flushed_ = false;
             ILOG("BIU Ack for a flushed cache miss is received!");
@@ -619,6 +620,8 @@ namespace olympia
             }
         }
 
+        std::cout << "shivam - updateIssuePriorityAfterCacheReload_ = " << inst_ptr->getUniqueID() << std::endl;
+
         sparta_assert(is_flushed_inst || is_found,
                     "Attempt to rehandle cache lookup for instruction not yet in the issue queue!");
     }
@@ -746,6 +749,13 @@ namespace olympia
                      << "], Instruction ID: " << inst_id);
             }
         }
+    }
+
+    void LSU::onStartingTeardown_() {
+        std::cout << "LSU Starting Teardown" << std::endl;
+        // flushLSPipeline_();
+        std::vector <const MemoryAccessInfo*> osobj =  memory_access_allocator_.getOutstandingAllocatedObjects();
+        std::cout << osobj.size();
     }
 
 } // namespace olympia

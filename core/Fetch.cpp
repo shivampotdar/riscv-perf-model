@@ -44,9 +44,11 @@ namespace olympia
         auto cpu_node   = getContainer()->getParent()->getParent();
         auto extension  = sparta::notNull(cpu_node->getExtension("simulation_configuration"));
         auto workload   = extension->getParameters()->getParameter("workload");
+        uint32_t core_num = stoi(getContainer()->getParent()->getName().substr(4,1));
         inst_generator_ = InstGenerator::createGenerator(getMavis(getContainer()),
                                                          workload->getValueAsString(),
-                                                         skip_nonuser_mode_);
+                                                         skip_nonuser_mode_,
+                                                         core_num);
 
         fetch_inst_event_->schedule(1);
     }
@@ -62,6 +64,10 @@ namespace olympia
         for(uint32_t i = 0; i < upper; ++i)
         {
             InstPtr ex_inst = inst_generator_->getNextInst(my_clk_);
+            // std::string container = getContainer()->getParent()->getName();
+            // uint32_t core_num = stoi(container.substr(4,1));
+            // ex_inst->setCoreNum(stoi(getContainer()->getParent()->getName().substr(4,1)));
+            // std::cout << "container = " << container <<", core_num = " << core_num << std::endl;
             if(SPARTA_EXPECT_TRUE(nullptr != ex_inst))
             {
                 ex_inst->setSpeculative(speculative_path_);

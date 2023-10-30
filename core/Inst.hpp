@@ -138,7 +138,7 @@ namespace olympia
         // Set the instructions unique ID.  This ID in constantly
         // incremented and does not repeat.  The same instruction in a
         // trace can have different unique IDs (due to flushing)
-        void     setUniqueID(uint64_t uid) { unique_id_ = uid; }
+        void     setUniqueID(uint64_t uid) { unique_id_ = uid + (getCoreNum()+1)*1000; }
         uint64_t getUniqueID() const       { return unique_id_; }
 
         // Set the instruction's Program ID.  This ID is specific to
@@ -177,6 +177,9 @@ namespace olympia
         uint64_t    getRAdr() const        { return target_vaddr_ | 0x8000000; } // faked
         bool        isSpeculative() const  { return is_speculative_; }
         bool        isTransfer() const     { return is_transfer_; }
+
+        void        setCoreNum(uint32_t core_num) {core_num_ = core_num;}
+        uint32_t    getCoreNum() const     { return core_num_;}
 
         // Rename information
         core_types::RegisterBitMask & getSrcRegisterBitMask(const core_types::RegFile rf) {
@@ -217,6 +220,7 @@ namespace olympia
         const bool             is_transfer_;  // Is this a transfer instruction (F2I/I2F)
         sparta::Scheduleable * ev_retire_    = nullptr;
         Status                 status_state_;
+        uint32_t               core_num_;
 
         // Rename information
         using RegisterBitMaskArray = std::array<core_types::RegisterBitMask, core_types::RegFile::N_REGFILES>;

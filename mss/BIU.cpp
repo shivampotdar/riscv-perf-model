@@ -38,6 +38,7 @@ namespace olympia_mss
     void BIU::getReqFromLSU_(const olympia::InstPtr & inst_ptr)
     {
         appendReqQueue_(inst_ptr);
+        std::cout << "getReqFromLSU - " << inst_ptr->getUniqueID() << std::endl;
 
         // Schedule BIU request handling event only when:
         // (1)BIU is not busy, and (2)Request queue is not empty

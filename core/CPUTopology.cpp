@@ -103,7 +103,7 @@ olympia::CoreTopologySimple::CoreTopologySimple(){
         },
         {
             "biu",
-            "cpu.core*",
+            "cpu",
             "Bus Interface Unit",
             sparta::TreeNode::GROUP_NAME_NONE,
             sparta::TreeNode::GROUP_IDX_NONE,
@@ -111,7 +111,7 @@ olympia::CoreTopologySimple::CoreTopologySimple(){
         },
         {
             "mss",
-            "cpu.core*",
+            "cpu",
             "Memory Sub-System",
             sparta::TreeNode::GROUP_NAME_NONE,
             sparta::TreeNode::GROUP_IDX_NONE,
@@ -203,10 +203,10 @@ olympia::CoreTopologySimple::CoreTopologySimple(){
         },
         {
             "cpu.core*.dcache.ports.out_biu_req",
-            "cpu.core*.biu.ports.in_biu_req"
+            "cpu.biu.ports.in_biu_req"
         },
         {
-            "cpu.core*.biu.ports.out_biu_ack",
+            "cpu.biu.ports.out_biu_ack",
             "cpu.core*.dcache.ports.in_biu_ack"
         },
         {
@@ -226,12 +226,12 @@ olympia::CoreTopologySimple::CoreTopologySimple(){
             "cpu.core*.lsu.ports.in_mmu_free_req"
         },
         {
-            "cpu.core*.biu.ports.out_mss_req_sync",
-            "cpu.core*.mss.ports.in_mss_req_sync"
+            "cpu.biu.ports.out_mss_req_sync",
+            "cpu.mss.ports.in_mss_req_sync"
         },
         {
-            "cpu.core*.biu.ports.in_mss_ack_sync",
-            "cpu.core*.mss.ports.out_mss_ack_sync"
+            "cpu.biu.ports.in_mss_ack_sync",
+            "cpu.mss.ports.out_mss_ack_sync"
         },
         {
             "cpu.core*.rob.ports.out_retire_flush",
@@ -292,7 +292,7 @@ void olympia::CoreTopologySimple::bindTree(sparta::RootTreeNode* root_node)
         const std::string core_node = "cpu.core"+std::to_string(core_num);
         const auto dispatch_ports     = core_node + ".dispatch.ports";
         const auto flushmanager_ports = core_node + ".flushmanager.ports";
-
+        // execution_topology is number of alu, fp, br
         auto execution_topology =
             olympia::coreutils::getExecutionTopology(root_node->getChild(core_node));
         for (auto exe_unit_pair : execution_topology)

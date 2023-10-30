@@ -88,6 +88,7 @@ namespace olympia {
         out_lsu_lookup_req_.send(cache_pending_inst_);
         reloadCache_(inst_ptr->getRAdr());
         cache_pending_inst_.reset();
+        std::cout << "shivam - got Ack from BIU (on out_lsu_lookup_req_)" << std::endl;
         busy_ = false;
     }
 

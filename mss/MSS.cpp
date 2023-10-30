@@ -32,11 +32,19 @@ namespace olympia_mss
     void MSS::getReqFromBIU_(const olympia::InstPtr & inst_ptr)
     {
         sparta_assert((inst_ptr != nullptr), "MSS is not handling a valid request!");
+        uint32_t core_num = inst_ptr->getCoreNum();
+        std::cout << "MSS : core_num = " << core_num << std::endl;
 
         // Handle MSS request event can only be scheduled when MMS is not busy
         if (!mss_busy_) {
             mss_busy_ = true;
             ev_handle_mss_req_.schedule(mss_latency_);
+
+            // if (core_num == 0) {
+            //     ev_handle_mss_req0_.schedule(mss_latency_);
+            // } else {
+            //     ev_handle_mss_req1_.schedule(mss_latency_);
+            // }
         }
         else {
             // Assumption: MSS can handle a single request each time
@@ -54,6 +62,20 @@ namespace olympia_mss
 
         ILOG("MSS is done!");
     }
+
+    // void MSS::handle_MSS_req0_()
+    // {
+    //     mss_busy_ = false;
+    //     out_mss_ack_sync0_.send(true);
+    //     ILOG("MSS is done!");
+    // }
+
+    // void MSS::handle_MSS_req1_()
+    // {
+    //     mss_busy_ = false;
+    //     out_mss_ack_sync1_.send(true);
+    //     ILOG("MSS is done!");
+    // }
 
 
     ////////////////////////////////////////////////////////////////////////////////

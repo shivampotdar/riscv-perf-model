@@ -44,6 +44,20 @@ auto olympia::CPUFactory::buildTree_(sparta::RootTreeNode* root_node,
             std::replace(node_name.begin(), node_name.end(), to_replace_, *replace_with.c_str());
             std::replace(human_name.begin(), human_name.end(), to_replace_, *replace_with.c_str());
             auto parent_node = root_node->getChildAs<sparta::TreeNode>(parent_name);
+            bool build = false;
+            // if ((node_name == "mss" && num_of_cores=0) || node_name != "mss") {
+            if (node_name == "mss" || node_name == "biu") {
+                if (num_of_cores == 0) {
+                    build = true;
+                }
+                else {
+                    build = false;                 
+                }
+            }
+            else {
+                build = true;
+            }
+            if (build) {
             auto rtn = new sparta::ResourceTreeNode(parent_node,
                                                     node_name,
                                                     unit.group_name,
@@ -62,6 +76,7 @@ auto olympia::CPUFactory::buildTree_(sparta::RootTreeNode* root_node,
             // defined, any unknown extensions are considered pure strings.
             rtn->addExtensionFactory(olympia::CoreExtensions::name,
                                      [&]() -> sparta::TreeNode::ExtensionsBase * {return new olympia::CoreExtensions();});
+            }
         }
     }
 }
@@ -82,8 +97,13 @@ auto olympia::CPUFactory::bindTree_(sparta::RootTreeNode* root_node,
             replace_with = std::to_string(num_of_cores);
             std::replace(out_port_name.begin(), out_port_name.end(), to_replace_, *replace_with.c_str());
             std::replace(in_port_name.begin(), in_port_name.end(), to_replace_, *replace_with.c_str());
+            bool in_common = (in_port_name.find("cpu.biu") != std::string::npos) || (in_port_name.find("cpu.mss") != std::string::npos);
+            bool out_common = (out_port_name.find("cpu.biu") != std::string::npos) || (out_port_name.find("cpu.mss") != std::string::npos);
+            if (!(in_common && out_common) || num_of_cores == 0) {
+            std::cout << "shivam - out = " << out_port_name << ", in = " << in_port_name << std::endl;
             sparta::bind(root_node->getChildAs<sparta::Port>(out_port_name),
                          root_node->getChildAs<sparta::Port>(in_port_name));
+            }
         }
 
         // Set the TLBs and preload

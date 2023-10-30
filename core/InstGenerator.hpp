@@ -33,17 +33,19 @@ namespace olympia
     class InstGenerator
     {
     public:
-        InstGenerator(MavisType * mavis_facade) : mavis_facade_(mavis_facade) {}
+        InstGenerator(MavisType * mavis_facade, uint32_t core_num) : mavis_facade_(mavis_facade),core_num_(core_num) {}
         virtual ~InstGenerator() {}
         virtual InstPtr getNextInst(const sparta::Clock * clk) = 0;
         static std::unique_ptr<InstGenerator> createGenerator(MavisType * mavis_facade,
                                                               const std::string & filename,
-                                                              const bool skip_nonuser_mode);
+                                                              const bool skip_nonuser_mode,
+                                                              const uint32_t core_num);
         virtual bool isDone() const = 0;
 
     protected:
         MavisType * mavis_facade_ = nullptr;
         uint64_t    unique_id_ = 0;
+        uint32_t    core_num_ = 0;
     };
 
     // Generates instructions from a JSON file
@@ -51,7 +53,8 @@ namespace olympia
     {
     public:
         JSONInstGenerator(MavisType * mavis_facade,
-                          const std::string & filename);
+                          const std::string & filename,
+                          uint32_t core_num);
         InstPtr getNextInst(const sparta::Clock * clk) override final;
 
         bool isDone() const override final;
@@ -70,7 +73,8 @@ namespace olympia
         // trace generator to skip system instructions if present
         TraceInstGenerator(MavisType * mavis_facade,
                            const std::string & filename,
-                           const bool skip_nonuser_mode);
+                           const bool skip_nonuser_mode,
+                           uint32_t core_num);
 
         InstPtr getNextInst(const sparta::Clock * clk) override final;
 
