@@ -77,6 +77,14 @@ olympia::CoreTopologySimple::CoreTopologySimple(){
             &factories->dcache_rf
         },
         {
+            "l2cache",
+            "cpu.core*",
+            "L2 Cache Unit",
+            sparta::TreeNode::GROUP_NAME_NONE,
+            sparta::TreeNode::GROUP_IDX_NONE,
+            &factories->l2cache_rf
+        },
+        {
             "mmu",
             "cpu.core*",
             "MMU Unit",
@@ -202,12 +210,20 @@ olympia::CoreTopologySimple::CoreTopologySimple(){
             "cpu.core*.lsu.ports.in_cache_free_req"
         },
         {
-            "cpu.core*.dcache.ports.out_biu_req",
+            "cpu.core*.dcache.ports.out_l2_req",
+            "cpu.core*.l2cache.ports.in_dl1_lookup_req"
+        },
+        {
+            "cpu.core*.l2cache.ports.out_dl1_lookup_ack",
+            "cpu.core*.dcache.ports.in_l2_ack"
+        },
+        {
+            "cpu.core*.l2cache.ports.out_biu_req",
             "cpu.core*.biu.ports.in_biu_req"
         },
         {
             "cpu.core*.biu.ports.out_biu_ack",
-            "cpu.core*.dcache.ports.in_biu_ack"
+            "cpu.core*.l2cache.ports.in_biu_ack"
         },
         {
             "cpu.core*.lsu.ports.out_mmu_lookup_req",

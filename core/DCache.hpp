@@ -35,7 +35,7 @@ namespace olympia {
 
         void getInstsFromLSU_(const MemoryAccessInfoPtr &memory_access_info_ptr);
 
-        void getAckFromBIU_(const InstPtr &inst_ptr);
+        void getAckFromL2_(const MemoryAccessInfoPtr &mem_access_info_ptr);
 
         using L1Handle = SimpleDL1::Handle;
         L1Handle l1_cache_;
@@ -51,8 +51,8 @@ namespace olympia {
         sparta::DataInPort<MemoryAccessInfoPtr> in_lsu_lookup_req_
                 {&unit_port_set_, "in_lsu_lookup_req", 0};
 
-        sparta::DataInPort<InstPtr> in_biu_ack_
-                {&unit_port_set_, "in_biu_ack", 1};
+        sparta::DataInPort<MemoryAccessInfoPtr> in_l2_ack_
+                {&unit_port_set_, "in_l2_ack", 1};
 
         ////////////////////////////////////////////////////////////////////////////////
         // Output Ports
@@ -66,8 +66,8 @@ namespace olympia {
         sparta::DataOutPort<MemoryAccessInfoPtr> out_lsu_lookup_req_
                 {&unit_port_set_, "out_lsu_lookup_req", 1};
 
-        sparta::DataOutPort<InstPtr> out_biu_req_
-                {&unit_port_set_, "out_biu_req"};
+        sparta::DataOutPort<MemoryAccessInfoPtr> out_l2_req_
+                {&unit_port_set_, "out_l2_req"};
 
         ////////////////////////////////////////////////////////////////////////////////
         // Events

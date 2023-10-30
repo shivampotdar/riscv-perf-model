@@ -20,6 +20,8 @@
 #include "Preloader.hpp"
 #include "MavisUnit.hpp"
 
+#include "L2Cache.hpp"
+
 namespace olympia{
 
     /**
@@ -55,9 +57,13 @@ namespace olympia{
         ExecuteFactory  execute_rf;
 
 
-        //! \brief Resouce Factory to build a MMU Unit
+        //! \brief Resouce Factory to build a DCache Unit
         sparta::ResourceFactory<olympia::DCache,
                 olympia::DCache::CacheParameterSet> dcache_rf;
+
+        //! \brief Resouce Factory to build a L2 Cache Unit
+        sparta::ResourceFactory<olympia::L2Cache,
+                olympia::L2Cache::CacheParameterSet> l2cache_rf;
 
         //! \brief Resouce Factory to build a TLB Unit
         sparta::ResourceFactory<olympia::SimpleTLB,
