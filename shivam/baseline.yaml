@@ -1,0 +1,113 @@
+# Name:     Olympia RISC-V Perf Model 
+# Cmdline:  ./olympia --write-final-config ../shivam/baseline.yaml --no-run
+# Exe:      ./olympia
+# SimulatorVersion: v0.1.0
+# Repro:    
+# Start:    Monday Mon Oct 23 15:26:44 2023
+# Elapsed:  0.015696s
+# 
+---
+top:
+  cpu:
+    core0:
+      fetch:
+        params:
+          num_to_fetch: 2  # 	default (uint32_t) tags:[SPARTA_Parameter]
+          skip_nonuser_mode: false  # 	default (bool) tags:[SPARTA_Parameter]
+      decode:
+        params:
+          num_to_decode: 2  # 	default (uint32_t) tags:[SPARTA_Parameter]
+          fetch_queue_size: 10  # 	default (uint32_t) tags:[SPARTA_Parameter]
+      rename:
+        params:
+          num_to_rename: 2  # 	default (uint32_t) tags:[SPARTA_Parameter]
+          rename_queue_depth: 10  # 	default (uint32_t) tags:[SPARTA_Parameter]
+          num_integer_renames: 128  # 	default (uint32_t) tags:[SPARTA_Parameter]
+          num_float_renames: 128  # 	default (uint32_t) tags:[SPARTA_Parameter]
+        scoreboards:
+          integer:
+            params:
+              latency_matrix: [["", alu0, fpu0, br0, lsu], [alu0, 1, 1, 1, 1], [fpu0, 1, 1, 1, 1], [br0, 1, 1, 1, 1], [lsu, 1, 1, 1, 1]]  # 	NON-DEFAULT: [[, alu0, fpu0, br0, lsu], [alu0, 1, 1, 1, 1], [fpu0, 1, 1, 1, 1], [br0, 1, 1, 1, 1], [lsu, 1, 1, 1, 1]] (std::vector<std::vector<std::string>>) tags:[SPARTA_Parameter]
+          float:
+            params:
+              latency_matrix: [["", alu0, fpu0, br0, lsu], [alu0, 1, 1, 1, 1], [fpu0, 1, 1, 1, 1], [br0, 1, 1, 1, 1], [lsu, 1, 1, 1, 1]]  # 	NON-DEFAULT: [[, alu0, fpu0, br0, lsu], [alu0, 1, 1, 1, 1], [fpu0, 1, 1, 1, 1], [br0, 1, 1, 1, 1], [lsu, 1, 1, 1, 1]] (std::vector<std::vector<std::string>>) tags:[SPARTA_Parameter]
+      dispatch:
+        params:
+          num_to_dispatch: 2  # 	default (uint32_t) tags:[SPARTA_Parameter]
+          dispatch_queue_depth: 10  # 	default (uint32_t) tags:[SPARTA_Parameter]
+          context_weights: [1]  # 	default (std::vector<double>) tags:[SPARTA_Parameter]
+      execute:
+        alu0:
+          params:
+            ignore_inst_execute_time: false  # 	default (bool) tags:[SPARTA_Parameter]
+            execute_time: 1  # 	default (uint32_t) tags:[SPARTA_Parameter]
+            scheduler_size: 8  # 	default (uint32_t) tags:[SPARTA_Parameter]
+            in_order_issue: true  # 	default (bool) tags:[SPARTA_Parameter]
+        fpu0:
+          params:
+            ignore_inst_execute_time: false  # 	default (bool) tags:[SPARTA_Parameter]
+            execute_time: 1  # 	default (uint32_t) tags:[SPARTA_Parameter]
+            scheduler_size: 8  # 	default (uint32_t) tags:[SPARTA_Parameter]
+            in_order_issue: true  # 	default (bool) tags:[SPARTA_Parameter]
+        br0:
+          params:
+            ignore_inst_execute_time: false  # 	default (bool) tags:[SPARTA_Parameter]
+            execute_time: 1  # 	default (uint32_t) tags:[SPARTA_Parameter]
+            scheduler_size: 8  # 	default (uint32_t) tags:[SPARTA_Parameter]
+            in_order_issue: true  # 	default (bool) tags:[SPARTA_Parameter]
+      dcache:
+        params:
+          l1_line_size: 64  # 	default (uint32_t) tags:[SPARTA_Parameter]
+          l1_size_kb: 16  # 	default (uint32_t) tags:[SPARTA_Parameter]
+          l1_associativity: 8  # 	default (uint32_t) tags:[SPARTA_Parameter]
+          cache_latency: 1  # 	default (uint32_t) tags:[SPARTA_Parameter]
+          l1_always_hit: false  # 	default (bool) tags:[SPARTA_Parameter]
+      mmu:
+        params:
+          tlb_always_hit: false  # 	default (bool) tags:[SPARTA_Parameter]
+          mmu_latency: 1  # 	default (uint32_t) tags:[SPARTA_Parameter]
+        tlb:
+          params:
+            tlb_page_size: 4096  # 	default (uint64_t) tags:[SPARTA_Parameter]
+            tlb_num_of_entries: 32  # 	default (uint64_t) tags:[SPARTA_Parameter]
+            tlb_associativity: 32  # 	default (uint32_t) tags:[SPARTA_Parameter]
+      lsu:
+        params:
+          ldst_inst_queue_size: 8  # 	default (uint32_t) tags:[SPARTA_Parameter]
+      biu:
+        params:
+          biu_req_queue_size: 4  # 	default (uint32_t) tags:[SPARTA_Parameter]
+          biu_latency: 1  # 	default (uint32_t) tags:[SPARTA_Parameter]
+      mss:
+        params:
+          mss_latency: 5  # 	default (uint32_t) tags:[SPARTA_Parameter]
+      rob:
+        params:
+          num_to_retire: 2  # 	default (uint32_t) tags:[SPARTA_Parameter]
+          retire_queue_depth: 30  # 	default (uint32_t) tags:[SPARTA_Parameter]
+          num_insts_to_retire: 0  # 	default (uint32_t) tags:[SPARTA_Parameter]
+          retire_heartbeat: 1000000  # 	default (uint64_t) tags:[SPARTA_Parameter]
+          retire_timeout_interval: 10000  # 	default (uint64_t) tags:[SPARTA_Parameter]
+      preloader:
+        params:
+          preload_file: ""  # 	default (std::string) tags:[SPARTA_Parameter]
+      mavis:
+        params:
+          isa_file_path: mavis_isa_files  # 	default (std::string) tags:[SPARTA_Parameter]
+          uarch_file_path: arches/isa_json  # 	default (std::string) tags:[SPARTA_Parameter]
+          pseudo_file_path: ""  # 	default (std::string) tags:[SPARTA_Parameter]
+          uarch_overrides_json: ""  # 	default (std::string) tags:[SPARTA_Parameter]
+          uarch_overrides: []  # 	default (std::vector<std::string>) tags:[SPARTA_Parameter]
+meta:
+  params:
+    architecture: small_core  # 	NON-DEFAULT: NONE (std::string) tags:[SPARTA_Parameter]
+    is_final_config: true  # 	NON-DEFAULT: false (bool) tags:[SPARTA_Parameter]
+---
+top.cpu.core0:
+  extension.core_extensions:
+    execution_topology: "[[\"alu\", \"1\"], [\"fpu\", \"1\"], [\"br\", \"1\"]]"  #  tags:[SPARTA_Parameter]
+---
+top.cpu:
+  extension.simulation_configuration:
+    workload: ""  #  tags:[SPARTA_Parameter]
+...
