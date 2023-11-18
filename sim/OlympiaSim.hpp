@@ -31,7 +31,7 @@ public:
     OlympiaSim(const std::string& topology,
                sparta::Scheduler & scheduler,
                const uint32_t num_cores,
-               const std::string workload,
+               const std::vector<std::string> workload,
                const uint64_t instruction_limit=0,
                const bool show_factories = false);
 
@@ -75,7 +75,7 @@ private:
     const uint32_t num_cores_;
 
     //! Workload
-    const std::string workload_;
+    const std::vector<std::string> workload_;
 
     //! Instruction limit (set up -i option on command line)
     const uint64_t instruction_limit_;

@@ -1,0 +1,39 @@
+[
+    {
+        "mnemonic": "sub",
+        "rs1": 1,
+        "rs2": 2,
+        "rd": 3
+    },
+    {
+        "mnemonic": "mul",
+        "rs1": 3,
+        "rs2": 1,
+        "rd": 8
+    },
+    {
+        "mnemonic": "sub",
+        "rs1": 4,
+        "rs2": 3,
+        "rd": 5
+    },
+    {
+        "mnemonic": "lw",
+        "rs1": 4,
+        "rs2": 3,
+        "rd":  5,
+        "vaddr" : "0xbabe4004"
+    },
+    {
+        "mnemonic": "add",
+        "rs1": 1,
+        "rs2": 2,
+        "rd": 3
+    },
+    {
+        "mnemonic": "add",
+        "rs1": 14,
+        "rs2": 13,
+        "rd": 15
+    }
+]

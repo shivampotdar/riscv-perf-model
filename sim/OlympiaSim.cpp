@@ -31,7 +31,7 @@
 OlympiaSim::OlympiaSim(const std::string& topology,
                        sparta::Scheduler & scheduler,
                        const uint32_t num_cores,
-                       const std::string workload,
+                       const std::vector<std::string> workload,
                        const uint64_t instruction_limit,
                        const bool show_factories) :
     sparta::app::Simulation("sparta_olympia", &scheduler),
@@ -90,7 +90,7 @@ void OlympiaSim::buildTree_()
     // Set the workload in the simulation configuration
     auto extension = sparta::notNull(cpu_tn->getExtension("simulation_configuration"));
     auto workload  = extension->getParameters()->getParameter("workload");
-    workload->setValueFromString(workload_);
+    workload->setValueFromStringVector(workload_);
 
     // Print the registered factories for debug
     if(show_factories_){

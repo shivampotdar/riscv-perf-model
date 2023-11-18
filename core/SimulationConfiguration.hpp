@@ -35,13 +35,13 @@ namespace olympia
         void postCreate() override {
             sparta::ParameterSet * ps = getParameters();
             if(nullptr == ps->getParameter("workload", false)) {
-                workload_param_.reset(new sparta::Parameter<std::string>(
-                                          "workload", "",
+                workload_param_.reset(new sparta::Parameter<std::vector<std::string>>(
+                                          "workload", {},                                  
                                           "Workload to run", ps));
             }
         }
 
-        std::unique_ptr<sparta::Parameter<std::string>> workload_param_;
+        std::unique_ptr<sparta::Parameter<std::vector<std::string>>> workload_param_;
 
     };
 }

@@ -25,7 +25,7 @@ int main(int argc, char **argv)
 {
     uint64_t ilimit = 0;
     uint32_t num_cores = 1;
-    std::string workload;
+    std::vector <std::string> workloads;
     const char * WORKLOAD = "workload";
 
     sparta::app::DefaultValues DEFAULTS;
@@ -66,7 +66,7 @@ int main(int argc, char **argv)
             ("show-factories",
              "Show the registered factories")
             (WORKLOAD,
-             sparta::app::named_value<std::string>(WORKLOAD, &workload),
+             sparta::app::named_value<std::vector<std::string>>(WORKLOAD, &workloads)->multitoken(),
              "Specifies the instruction workload (trace, JSON)");
 
         // Add any positional command-line options
@@ -90,7 +90,15 @@ int main(int argc, char **argv)
             show_factories = true;
         }
 
-        if(workload.empty() && (0 == vm.count("no-run"))) {
+        if (vm.count(WORKLOAD)) {
+            std::vector<std::string> input_files = vm[WORKLOAD].as<std::vector<std::string>>();
+            std::cout << "Input files: ";
+            for (const auto& file : input_files) {
+                std::cout << file << " ";
+            }
+            std::cout << std::endl;
+        }
+        else if (0 == vm.count("no-run")) {
             std::cerr << "ERROR: Missing a workload to run.  Can be a trace or JSON file" << std::endl;
             std::cerr << USAGE;
             return -1;
@@ -101,7 +109,7 @@ int main(int argc, char **argv)
         OlympiaSim sim("simple",
                        scheduler,
                        num_cores, // cores
-                       workload,
+                       workloads,
                        ilimit,
                        show_factories); // run for ilimit instructions
 

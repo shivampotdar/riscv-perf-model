@@ -42,10 +42,12 @@ namespace olympia
     {
         // Get the CPU Node
         auto cpu_node   = getContainer()->getParent()->getParent();
+        int coreId = std::stoi(getContainer()->getParent()->getName().substr(4,1));
         auto extension  = sparta::notNull(cpu_node->getExtension("simulation_configuration"));
         auto workload   = extension->getParameters()->getParameter("workload");
+        std::cout << "shpotdar - core = " << getContainer()->getParent()->getName() << " trace = " << workload->getValueAsStringAt(coreId) << std::endl;
         inst_generator_ = InstGenerator::createGenerator(getMavis(getContainer()),
-                                                         workload->getValueAsString(),
+                                                         workload->getValueAsStringAt(coreId),
                                                          skip_nonuser_mode_);
 
         fetch_inst_event_->schedule(1);

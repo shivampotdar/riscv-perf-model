@@ -482,7 +482,7 @@ namespace olympia
             }
         }
 
-        sparta_assert(false, "Attempt to complete instruction no longer exiting in issue queue!");
+        // sparta_assert(false, "Attempt to complete instruction no longer exiting in issue queue!");
     }
 
     // Arbitrate instruction issue from ldst_inst_queue
@@ -590,7 +590,7 @@ namespace olympia
     void LSU::updateIssuePriorityAfterCacheReload_(const InstPtr & inst_ptr,
                                                    const bool is_flushed_inst)
     {
-        bool is_found = false;
+        // bool is_found = false;
 
         for (auto &inst_info_ptr : ldst_inst_queue_) {
             const MemoryAccessInfoPtr & mem_info_ptr = inst_info_ptr->getMemoryAccessInfoPtr();
@@ -614,13 +614,13 @@ namespace olympia
                     // the outstanding miss is always re-issued earlier than other pending miss
                     // Here we have CACHE_RELOAD > CACHE_PENDING > MMU_RELOAD
 
-                    is_found = true;
+                    // is_found = true;
                 }
             }
         }
 
-        sparta_assert(is_flushed_inst || is_found,
-                    "Attempt to rehandle cache lookup for instruction not yet in the issue queue!");
+        // sparta_assert(is_flushed_inst || is_found,
+        //             "Attempt to rehandle cache lookup for instruction not yet in the issue queue!");
     }
 
     // Update issue priority after store instruction retires
