@@ -8,7 +8,7 @@
 #include "cache/ReplacementIF.hpp"
 #include "cache/preload/PreloadableIF.hpp"
 #include "cache/preload/PreloadableNode.hpp"
-#include "SimpleDL1.hpp"
+#include "CacheFuncModel.hpp"
 using namespace std::placeholders;
 namespace olympia
 {

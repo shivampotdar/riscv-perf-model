@@ -7,18 +7,19 @@ namespace olympia
 {
     std::unique_ptr<InstGenerator> InstGenerator::createGenerator(MavisType * mavis_facade,
                                                                   const std::string & filename,
-                                                                  const bool skip_nonuser_mode)
+                                                                  const bool skip_nonuser_mode,
+                                                                  const uint32_t core_num)
     {
         const std::string json_ext = "json";
         if((filename.size() > json_ext.size()) && filename.substr(filename.size()-json_ext.size()) == json_ext) {
             std::cout << "olympia: JSON file input detected" << std::endl;
-            return std::unique_ptr<InstGenerator>(new JSONInstGenerator(mavis_facade, filename));
+            return std::unique_ptr<InstGenerator>(new JSONInstGenerator(mavis_facade, filename, core_num));
         }
 
         const std::string stf_ext = "stf";  // Should cover both zstf and stf
         if((filename.size() > stf_ext.size()) && filename.substr(filename.size()-stf_ext.size()) == stf_ext) {
             std::cout << "olympia: STF file input detected" << std::endl;
-            return std::unique_ptr<InstGenerator>(new TraceInstGenerator(mavis_facade, filename, skip_nonuser_mode));
+            return std::unique_ptr<InstGenerator>(new TraceInstGenerator(mavis_facade, filename, skip_nonuser_mode, core_num));
         }
 
         // Dunno what it is...
@@ -30,8 +31,9 @@ namespace olympia
     ////////////////////////////////////////////////////////////////////////////////
     // JSON Inst Generator
     JSONInstGenerator::JSONInstGenerator(MavisType * mavis_facade,
-                                         const std::string & filename) :
-        InstGenerator(mavis_facade)
+                                         const std::string & filename,
+                                         uint32_t core_num) :
+        InstGenerator(mavis_facade, core_num)
     {
         std::ifstream fs;
         std::ios_base::iostate exceptionMask = fs.exceptions() | std::ios::failbit;
@@ -105,7 +107,8 @@ namespace olympia
 
         ++curr_inst_index_;
         if (inst != nullptr) {
-            inst->setUniqueID(++unique_id_);
+            inst->setUniqueID(1000*core_num_ + ++unique_id_);
+            inst->setCoreNum(core_num_);
             inst->setProgramID(unique_id_);
         }
         return inst;
@@ -116,8 +119,9 @@ namespace olympia
     // STF Inst Generator
     TraceInstGenerator::TraceInstGenerator(MavisType * mavis_facade,
                                            const std::string & filename,
-                                           const bool skip_nonuser_mode) :
-        InstGenerator(mavis_facade)
+                                           const bool skip_nonuser_mode,
+                                           uint32_t core_num) :
+        InstGenerator(mavis_facade, core_num)
     {
         std::ifstream fs;
         std::ios_base::iostate exceptionMask = fs.exceptions() | std::ios::failbit;
@@ -160,7 +164,8 @@ namespace olympia
         try {
             InstPtr inst = mavis_facade_->makeInst(opcode, clk);
             inst->setPC(next_it_->pc());
-            inst->setUniqueID(++unique_id_);
+            inst->setUniqueID(1000*core_num_ + ++unique_id_);
+            inst->setCoreNum(core_num_);
             inst->setProgramID(unique_id_);
             if (const auto& mem_accesses = next_it_->getMemoryAccesses(); !mem_accesses.empty())
             {

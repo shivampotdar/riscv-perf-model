@@ -32,6 +32,8 @@ namespace olympia_mss
     void MSS::getReqFromBIU_(const olympia::InstPtr & inst_ptr)
     {
         sparta_assert((inst_ptr != nullptr), "MSS is not handling a valid request!");
+        uint32_t core_num = inst_ptr->getCoreNum();
+        std::cout << "MSS : core_num = " << core_num << std::endl;
 
         // Handle MSS request event can only be scheduled when MMS is not busy
         if (!mss_busy_) {
